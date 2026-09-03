@@ -1,0 +1,766 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="企業 ERP 轉型作品集：流程拆解、規格設計與變革推動。">
+<title>Nikki Liu｜資深產品經理作品集</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  /* warm-cool neutral, biased toward the teal accent */
+  --plane:#ECEEEA;
+  --surface:#F8F9F6;
+  --surface-2:#F1F3EF;
+  --ink:#16211F;
+  --ink-2:#4B554F;
+  --muted:#7E857F;
+  --hair:#D9DED7;
+  --hair-strong:#C4CBC2;
+  --accent:#0E7C6F;        /* main flow / systems */
+  --accent-soft:#DBEDE9;
+  --amber:#B26A16;         /* exception / risk */
+  --amber-soft:#F3E6D0;
+  --critical:#C0392B;      /* blocking / critical */
+  --critical-soft:#F4DDD9;
+  /* chart series (validated light) */
+  --s-new:#eb6834;         /* 新增 */
+  --s-done:#1baf7a;        /* 解決 */
+  --s-stock:#2a78d6;       /* 累積剩餘 */
+  --chart-grid:#E1E0D9;
+  --chart-axis:#C3C2B7;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --plane:#0E1211;
+    --surface:#161C1A;
+    --surface-2:#1C2320;
+    --ink:#F1F3EF;
+    --ink-2:#B4BBB4;
+    --muted:#818B84;
+    --hair:#29302D;
+    --hair-strong:#3A423E;
+    --accent:#33A99A;
+    --accent-soft:#123330;
+    --amber:#E0912F;
+    --amber-soft:#33280F;
+    --critical:#E66767;
+    --critical-soft:#3A1F1D;
+    --s-new:#d95926;
+    --s-done:#199e70;
+    --s-stock:#3987e5;
+    --chart-grid:#2C2C2A;
+    --chart-axis:#383835;
+  }
+}
+:root[data-theme="dark"]{
+  --plane:#0E1211;
+  --surface:#161C1A;
+  --surface-2:#1C2320;
+  --ink:#F1F3EF;
+  --ink-2:#B4BBB4;
+  --muted:#818B84;
+  --hair:#29302D;
+  --hair-strong:#3A423E;
+  --accent:#33A99A;
+  --accent-soft:#123330;
+  --amber:#E0912F;
+  --amber-soft:#33280F;
+  --critical:#E66767;
+  --critical-soft:#3A1F1D;
+  --s-new:#d95926;
+  --s-done:#199e70;
+  --s-stock:#3987e5;
+  --chart-grid:#2C2C2A;
+  --chart-axis:#383835;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--plane);
+  color:var(--ink);
+  font-family:"Noto Sans TC","Fraunces",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:16px;line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+.wrap{max-width:1040px;margin:0 auto;padding:0 28px}
+.mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+
+.eyebrow{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent);font-weight:600;
+}
+h1,h2,h3{font-family:"Noto Serif TC","Fraunces",serif;font-weight:700;text-wrap:balance;line-height:1.25;margin:0}
+p{margin:0}
+a{color:var(--accent)}
+
+/* ---------- hero ---------- */
+.hero{padding:88px 0 40px;border-bottom:1px solid var(--hair)}
+.hero .kicker{margin-bottom:22px}
+.hero h1{font-size:clamp(34px,5.4vw,58px);letter-spacing:-.01em}
+.hero .lead{margin-top:22px;max-width:64ch;font-size:clamp(16px,1.9vw,19px);color:var(--ink-2)}
+.role-line{margin-top:26px;display:flex;flex-wrap:wrap;gap:10px}
+.tag{
+  font-family:"IBM Plex Mono",monospace;font-size:12.5px;
+  border:1px solid var(--hair-strong);border-radius:2px;
+  padding:5px 11px;color:var(--ink-2);background:var(--surface);
+}
+.legend{
+  margin-top:34px;display:flex;flex-wrap:wrap;gap:20px 28px;
+  padding-top:24px;border-top:1px dashed var(--hair-strong);
+}
+.legend .li{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--ink-2)}
+.swatch{width:26px;height:10px;border-radius:2px;flex:none}
+
+/* ---------- section shell ---------- */
+section.case{padding:64px 0;border-bottom:1px solid var(--hair)}
+.case-head{display:flex;gap:20px;align-items:baseline}
+.case-no{
+  font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:600;
+  color:var(--accent);border:1px solid var(--accent);border-radius:2px;
+  padding:3px 8px;flex:none;letter-spacing:.05em;
+}
+.case-title{font-size:clamp(23px,3.2vw,32px);letter-spacing:-.005em}
+.case-sub{margin-top:14px;max-width:70ch;color:var(--ink-2);font-size:15.5px}
+.context-grid{
+  margin-top:26px;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  background:var(--hair);border:1px solid var(--hair);border-radius:4px;overflow:hidden;
+}
+.context-grid .cell{background:var(--surface);padding:14px 16px}
+.context-grid .lab{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.context-grid .val{margin-top:5px;font-size:14px;color:var(--ink);line-height:1.5}
+
+/* ---------- plate (diagram/chart container) ---------- */
+figure.plate{
+  margin:34px 0 0;background:var(--surface);
+  border:1px solid var(--hair);border-radius:6px;overflow:hidden;
+}
+.plate-cap{
+  display:flex;justify-content:space-between;align-items:center;gap:14px;
+  padding:12px 18px;border-bottom:1px solid var(--hair);
+  font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted);
+  letter-spacing:.03em;flex-wrap:wrap;
+}
+.plate-cap b{color:var(--ink-2);font-weight:600}
+.plate-body{padding:22px 20px}
+.plate svg{display:block;width:100%;height:auto}
+figcaption.note{padding:0 20px 18px;font-size:13px;color:var(--muted);line-height:1.6}
+.scrollx{overflow-x:auto}
+
+/* diagram text defaults */
+svg text{font-family:"Noto Sans TC",system-ui,sans-serif}
+.dg-node{fill:var(--surface-2);stroke:var(--hair-strong)}
+.dg-t{fill:var(--ink);font-size:13px;font-weight:500}
+.dg-tsm{fill:var(--ink-2);font-size:11px}
+.dg-lane{fill:var(--surface-2)}
+.dg-lanelab{fill:var(--ink-2);font-size:12px;font-weight:600;font-family:"IBM Plex Mono",monospace}
+.arrow-lab{fill:var(--muted);font-size:10.5px;font-family:"IBM Plex Mono",monospace}
+
+/* ---------- skills callout ---------- */
+.skills{
+  margin-top:30px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+}
+.skill{
+  background:var(--accent-soft);border:1px solid var(--hair);border-radius:6px;
+  padding:16px 18px;
+}
+.skill .h{font-family:"Noto Serif TC",serif;font-weight:700;font-size:16px;color:var(--ink)}
+.skill .d{margin-top:7px;font-size:13.5px;color:var(--ink-2);line-height:1.6}
+
+/* ---------- data table (backlog) ---------- */
+.tbl-wrap{margin-top:30px;border:1px solid var(--hair);border-radius:6px;overflow:hidden}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+thead th{
+  background:var(--surface-2);text-align:left;padding:11px 14px;
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--hair);white-space:nowrap;
+}
+tbody td{padding:11px 14px;border-bottom:1px solid var(--hair);vertical-align:top;color:var(--ink-2)}
+tbody tr:last-child td{border-bottom:none}
+tbody td:first-child{color:var(--ink);font-weight:500}
+.pill{
+  display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:11px;
+  padding:2px 8px;border-radius:20px;white-space:nowrap;line-height:1.6;
+}
+.pill.short{background:var(--accent-soft);color:var(--accent)}
+.pill.mid{background:var(--amber-soft);color:var(--amber)}
+.pill.long{background:var(--surface-2);color:var(--ink-2);border:1px solid var(--hair-strong)}
+.pill.done{background:var(--accent-soft);color:var(--accent)}
+.pill.dev{background:var(--amber-soft);color:var(--amber)}
+.pill.wait{background:var(--surface-2);color:var(--muted);border:1px solid var(--hair-strong)}
+
+/* ---------- exception scenario cards ---------- */
+.exc{margin-top:30px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.exc .card{
+  background:var(--surface);border:1px solid var(--hair);border-left:3px solid var(--amber);
+  border-radius:6px;padding:18px;
+}
+.exc .tagline{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.06em;color:var(--amber);text-transform:uppercase}
+.exc .ct{margin-top:8px;font-family:"Noto Serif TC",serif;font-weight:700;font-size:16px;color:var(--ink)}
+.exc .cd{margin-top:9px;font-size:13px;color:var(--ink-2);line-height:1.62}
+.exc .risk{margin-top:12px;padding-top:11px;border-top:1px dashed var(--hair-strong);font-size:12.5px;color:var(--ink-2)}
+.exc .risk b{color:var(--accent);font-weight:600;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.04em}
+
+/* ---------- artifact split (jira + spec) ---------- */
+.two{margin-top:30px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.jira{background:var(--surface);border:1px solid var(--hair);border-radius:6px;overflow:hidden}
+.jira .bar{display:flex;align-items:center;gap:10px;padding:11px 15px;background:var(--surface-2);border-bottom:1px solid var(--hair)}
+.jira .key{font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;color:var(--accent)}
+.jira .type{font-family:"IBM Plex Mono",monospace;font-size:10.5px;padding:2px 7px;border-radius:3px;background:var(--amber-soft);color:var(--amber)}
+.jira .body{padding:15px}
+.jira .jt{font-weight:700;font-size:15px;color:var(--ink);font-family:"Noto Serif TC",serif;line-height:1.4}
+.jira .meta{margin-top:14px;display:grid;grid-template-columns:auto 1fr;gap:7px 14px;font-size:12.5px}
+.jira .meta .k{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);white-space:nowrap}
+.jira .meta .v{color:var(--ink-2)}
+.jira .desc{margin-top:14px;padding-top:13px;border-top:1px solid var(--hair);font-size:13px;color:var(--ink-2);line-height:1.6}
+.spec{background:var(--surface);border:1px solid var(--hair);border-radius:6px;overflow:hidden}
+.spec .bar{padding:11px 15px;background:var(--surface-2);border-bottom:1px solid var(--hair);font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-2);font-weight:600}
+.spec .body{padding:15px;font-family:"IBM Plex Mono",monospace;font-size:12px;line-height:1.85;color:var(--ink-2);white-space:pre-wrap;overflow-x:auto}
+.spec .rule{color:var(--ink)}
+.spec .kw{color:var(--accent);font-weight:600}
+.spec .warn{color:var(--amber);font-weight:600}
+.spec .cmt{color:var(--muted)}
+
+/* ---------- KPI tiles ---------- */
+.kpis{margin-top:0;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.kpi{background:var(--surface);border:1px solid var(--hair);border-radius:6px;padding:16px 18px}
+.kpi .lab{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.kpi .num{margin-top:6px;font-size:34px;font-weight:600;line-height:1;font-family:"Fraunces","Noto Serif TC",serif;font-variant-numeric:tabular-nums;color:var(--ink)}
+.kpi .sub{margin-top:7px;font-size:12px;color:var(--ink-2)}
+.kpi .sub.down{color:var(--accent)}
+
+/* chart */
+.chart-legend{display:flex;gap:18px;flex-wrap:wrap}
+.chart-legend .cl{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-2);font-family:"IBM Plex Mono",monospace}
+.chart-legend .dot{width:11px;height:11px;border-radius:2px;flex:none}
+.bar-val{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;fill:var(--ink)}
+.ax{fill:var(--muted);font-size:11px;font-family:"IBM Plex Mono",monospace}
+
+/* ---------- training slide ---------- */
+.slide{
+  margin-top:30px;background:var(--surface);border:1px solid var(--hair);border-radius:8px;
+  overflow:hidden;box-shadow:0 1px 0 var(--hair);
+}
+.slide .top{height:6px;background:linear-gradient(90deg,var(--accent),var(--amber))}
+.slide .inner{padding:30px 34px 34px}
+.slide .snum{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--accent);letter-spacing:.1em}
+.slide h3{margin-top:10px;font-size:26px;color:var(--ink)}
+.slide .stext{margin-top:6px;color:var(--muted);font-size:14px}
+.slide .steps{margin-top:26px;display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.slide .step{position:relative;padding:0 20px}
+.slide .step:not(:last-child){border-right:1px solid var(--hair)}
+.slide .step:first-child{padding-left:0}
+.slide .snum2{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--amber);font-weight:600}
+.slide .sh{margin-top:8px;font-family:"Noto Serif TC",serif;font-weight:700;font-size:17px;color:var(--ink)}
+.slide .sd{margin-top:8px;font-size:13px;color:var(--ink-2);line-height:1.6}
+.slide .foot{margin-top:26px;padding-top:16px;border-top:1px dashed var(--hair-strong);display:flex;justify-content:space-between;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);flex-wrap:wrap;gap:8px}
+
+/* ---------- carbon management case ---------- */
+.carbon-grid{margin-top:30px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.carbon-shot{margin:0;background:var(--surface);border:1px solid var(--hair);border-radius:6px;overflow:hidden}
+.carbon-shot img{display:block;width:100%;border-bottom:1px solid var(--hair)}
+.carbon-shot figcaption{padding:13px 15px;font-size:13px;color:var(--ink-2);line-height:1.6}
+.carbon-shot b{display:block;font-family:"Noto Serif TC",serif;color:var(--ink);font-size:16px;margin-bottom:4px}
+.contact-bar{margin-top:30px;padding:18px 20px;background:var(--accent-soft);border:1px solid var(--hair);border-radius:6px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.contact-bar .contact-label{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.08em;color:var(--ink-2)}
+.contact-bar a{font-family:"IBM Plex Mono",monospace;font-size:14px;font-weight:600;text-decoration:none}
+
+/* ---------- footer ---------- */
+footer{padding:44px 0 70px;color:var(--muted);font-size:13px}
+footer .anon{margin-top:12px;font-family:"IBM Plex Mono",monospace;font-size:11.5px;line-height:1.8}
+
+@media (max-width:860px){
+  .context-grid{grid-template-columns:1fr}
+  .skills,.exc,.two,.kpis,.slide .steps,.carbon-grid{grid-template-columns:1fr}
+  .slide .step{padding:18px 0;border-right:none!important;border-bottom:1px solid var(--hair)}
+  .slide .step:last-child{border-bottom:none}
+}
+
+@media (prefers-reduced-motion:no-preference){
+  .kpi,.skill,.exc .card{transition:transform .18s ease}
+}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- ================= HERO ================= -->
+  <header class="hero">
+    <div class="kicker eyebrow">NIKKI LIU · SENIOR PRODUCT MANAGER PORTFOLIO</div>
+    <h1>讓複雜的企業流程，<br>成為可交付、可營運的產品。</h1>
+    <p class="lead">
+      具 B2B 軟體、ERP、IoT 與碳管理產品經驗。從需求釐清、流程與資料設計，到跨國上線、問題管理與持續迭代，
+      專注把高複雜度的業務邏輯轉化為可開發、易使用的永續可營運性產品。
+      以下案例說明系統轉型、複雜功能設計、跨系統維運與 0→1 平台建置四種能力。
+    </p>
+    <div class="role-line">
+      <span class="tag">產品設計</span>
+      <span class="tag">跨部門協調</span>
+      <span class="tag">規格設計 (SPEC / FSP)</span>
+      <span class="tag">風險預判</span>
+      <span class="tag">專案管理</span>
+      <span class="tag">SAP · EWM · Kafka · API 整合</span>
+    </div>
+  </header>
+
+  <!-- ================= CASE 01 ================= -->
+  <section class="case" id="case1">
+    <div class="case-head">
+      <span class="case-no">案例 01</span>
+      <h2 class="case-title">系統轉型：舊出貨系統退場</h2>
+    </div>
+    <p class="case-sub">
+      舊出貨系統長年與新平台並行，造成資料分歧與維運負擔。目標是讓舊系統安全退場，而非直接斷然關閉。
+      先弄清楚「使用者為什麼還在用舊系統」，把每個使用情境轉成新系統的短中長期 backlog，設計訓練與切換計畫。
+    </p>
+
+    <div class="context-grid">
+      <div class="cell"><div class="lab">Role</div><div class="val">需求蒐集／分析、專案主責</div></div>
+      <div class="cell"><div class="lab">Stakeholders</div><div class="val">CSR（業務助理）、VSR（採購助理）、IE（其他模組 Owner）、IT</div></div>
+      <div class="cell"><div class="lab">Method</div><div class="val">需求盤點 → Backlog 分類 → 短中長期方案 → 訓練/切換 → 上線追蹤</div></div>
+    </div>
+
+    <!-- FLOW DIAGRAM -->
+    <figure class="plate">
+      <div class="plate-cap"><span><b>圖 1.1</b> — 舊系統退場推動流程</span><span class="chart-legend"><span class="cl"><span class="dot" style="background:var(--accent)"></span>主流程</span><span class="cl"><span class="dot" style="background:var(--amber)"></span>回饋迴圈</span><span class="cl"><span class="dot" style="background:var(--critical)"></span>關鍵卡控</span></span></div>
+      <div class="plate-body scrollx">
+        <svg viewBox="0 0 980 360" role="img" aria-label="舊系統退場的五階段流程：需求蒐集、Backlog 分類、短中長期方案、訓練與切換、上線追蹤，下方為跨部門協調輸入，並有從上線追蹤回到 Backlog 的回饋迴圈。">
+          <defs>
+            <marker id="ar" markerWidth="9" markerHeight="9" refX="7.5" refY="4" orient="auto"><polygon points="0,0 9,4 0,8" fill="currentColor"/></marker>
+            <marker id="arS" markerWidth="8" markerHeight="8" refX="6.5" refY="3.5" orient="auto"><polygon points="0,0 8,3.5 0,7" fill="currentColor"/></marker>
+          </defs>
+
+          <!-- stage nodes -->
+          <g>
+            <rect class="dg-node" x="20"  y="70" width="170" height="72" rx="6"/>
+            <rect class="dg-node" x="222" y="70" width="170" height="72" rx="6"/>
+            <rect class="dg-node" x="424" y="70" width="170" height="72" rx="6"/>
+            <rect class="dg-node" x="626" y="70" width="170" height="72" rx="6"/>
+            <rect x="828" y="70" width="132" height="72" rx="6" fill="var(--accent-soft)" stroke="var(--accent)"/>
+          </g>
+          <g text-anchor="middle">
+            <text class="dg-t" x="105" y="100">① 需求蒐集</text>
+            <text class="dg-tsm" x="105" y="120">訪談 · 現場觀察</text>
+            <text class="dg-tsm" x="105" y="134">舊系統使用原因</text>
+
+            <text class="dg-t" x="307" y="100">② Backlog 分類</text>
+            <text class="dg-tsm" x="307" y="120">情境歸類 · 影響</text>
+            <text class="dg-tsm" x="307" y="134">優先序 · 可行性</text>
+
+            <text class="dg-t" x="509" y="100">③ 短中長期方案</text>
+            <text class="dg-tsm" x="509" y="120">Quick win / 系統化</text>
+            <text class="dg-tsm" x="509" y="134">/ 架構調整</text>
+
+            <text class="dg-t" x="711" y="100">④ 訓練與切換</text>
+            <text class="dg-tsm" x="711" y="120">教材 · 抗拒排查</text>
+            <text class="dg-tsm" x="711" y="134">權限切換計畫</text>
+
+            <text class="dg-t" x="894" y="104" fill="var(--accent)">⑤ 上線追蹤</text>
+            <text class="dg-tsm" x="894" y="124">殘留使用監控</text>
+          </g>
+
+          <!-- main arrows -->
+          <g style="color:var(--accent)" stroke="currentColor" stroke-width="2" fill="none">
+            <line x1="190" y1="106" x2="218" y2="106" marker-end="url(#ar)"/>
+            <line x1="392" y1="106" x2="420" y2="106" marker-end="url(#ar)"/>
+            <line x1="594" y1="106" x2="622" y2="106" marker-end="url(#ar)"/>
+            <line x1="796" y1="106" x2="824" y2="106" marker-end="url(#ar)"/>
+          </g>
+
+          <!-- feedback loop -->
+          <g style="color:var(--amber)" stroke="currentColor" stroke-width="1.6" fill="none" stroke-dasharray="5 4">
+            <path d="M894 142 L894 200 L307 200 L307 146" marker-end="url(#arS)"/>
+          </g>
+          <text class="arrow-lab" x="600" y="192" text-anchor="middle" fill="var(--amber)">殘留需求回饋 · 迭代進 backlog</text>
+
+          <!-- stakeholder band -->
+          <text class="dg-lanelab" x="20" y="256">跨部門協調 · 輸入來源</text>
+          <g>
+            <rect x="20"  y="270" width="150" height="46" rx="5" fill="var(--surface-2)" stroke="var(--hair-strong)"/>
+            <rect x="190" y="270" width="150" height="46" rx="5" fill="var(--surface-2)" stroke="var(--hair-strong)"/>
+            <rect x="360" y="270" width="150" height="46" rx="5" fill="var(--surface-2)" stroke="var(--hair-strong)"/>
+            <rect x="530" y="270" width="150" height="46" rx="5" fill="var(--surface-2)" stroke="var(--hair-strong)"/>
+          </g>
+          <g text-anchor="middle" class="dg-tsm">
+            <text x="95"  y="298">CSR · 業務助理</text>
+            <text x="265" y="298">VSR · 採購助理</text>
+            <text x="435" y="298">IE · 模組 Owner</text>
+            <text x="605" y="298">IT 開發</text>
+          </g>
+          <!-- feed arrows up into collection -->
+          <g style="color:var(--muted)" stroke="currentColor" stroke-width="1.3" fill="none">
+            <line x1="95"  y1="270" x2="100" y2="146" marker-end="url(#arS)"/>
+            <line x1="265" y1="270" x2="290" y2="146" marker-end="url(#arS)"/>
+            <line x1="435" y1="270" x2="290" y2="146" marker-end="url(#arS)"/>
+            <line x1="605" y1="270" x2="500" y2="146" marker-end="url(#arS)"/>
+          </g>
+          <text class="arrow-lab" x="395" y="220">跨模組影響</text>
+          <text class="arrow-lab" x="545" y="220">同步階段目標</text>
+        </svg>
+      </div>
+    </figure>
+
+    <div class="skills">
+      <div class="skill"><div class="h">專案推動</div><div class="d">不強推切換，先了解使用原因，以完善新系統與訓練、切換計畫降低使用者轉換門檻。</div></div>
+      <div class="skill"><div class="h">跨部門協調</div><div class="d">在 CSR、VSR、IE 與 IT 之間對齊定義與優先序，讓每項 backlog 都有明確負責人與時程。</div></div>
+      <div class="skill"><div class="h">結構化分析</div><div class="d">把發散的需求收斂成可分類、可排序、可追蹤的 backlog，並以短中長期分配資源投入。</div></div>
+    </div>
+  </section>
+
+  <!-- ================= CASE 02 ================= -->
+  <section class="case" id="case2">
+    <div class="case-head">
+      <span class="case-no">案例 02</span>
+      <h2 class="case-title">複雜功能設計：KIT 成套出貨與退貨流程</h2>
+    </div>
+    <p class="case-sub">
+      套件（KIT）由多顆子料成套出貨及退貨，牽涉出貨批號搓合、成套卡控、庫存分配、挑批等邏輯，
+      又要適用 OBIA（OB in Advanced）情境。任一環節都可能造成數量不成套、庫存錯配或帳務失衡。
+      核心工作是把流程拆到跨系統的每一步，設計規格並預先思考例外情境。
+    </p>
+
+    <div class="context-grid">
+      <div class="cell"><div class="lab">Scope</div><div class="val">KIT 成套出貨／退貨、OBIA 庫存分配</div></div>
+      <div class="cell"><div class="lab">Systems</div><div class="val">使用者 (CSR) · Portal · SAP · EWM 四方互動</div></div>
+      <div class="cell"><div class="lab">Deliverable</div><div class="val">流程拆解、SPEC／FSP、卡控規則、例外情境測試案例</div></div>
+    </div>
+
+    <!-- SWIMLANE -->
+    <figure class="plate">
+      <div class="plate-cap"><span><b>圖 2.1</b> — 套件成套出貨泳道圖</span><span>User · Portal · SAP · EWM</span></div>
+      <div class="plate-body scrollx">
+        <svg viewBox="0 0 1000 372" role="img" aria-label="套件成套出貨的四泳道流程圖，泳道分別為使用者、Portal、SAP、EWM，顯示從選單、批號搓合、建立訂單與出貨單、揀貨過帳到成套確認，並標出跨批號搓合與併單拆單兩個例外風險點。">
+          <defs>
+            <marker id="ar2" markerWidth="9" markerHeight="9" refX="7.5" refY="4" orient="auto"><polygon points="0,0 9,4 0,8" fill="currentColor"/></marker>
+          </defs>
+          <!-- lane backgrounds -->
+          <g>
+            <rect class="dg-lane" x="0"   y="0" width="1000" height="84"  opacity="0.5"/>
+            <rect class="dg-lane" x="0"   y="94" width="1000" height="84" opacity="0.35"/>
+            <rect class="dg-lane" x="0"   y="188" width="1000" height="84" opacity="0.5"/>
+            <rect class="dg-lane" x="0"   y="282" width="1000" height="84" opacity="0.35"/>
+          </g>
+          <!-- lane labels -->
+          <g>
+            <text class="dg-lanelab" x="14" y="30">USER</text><text class="dg-tsm" x="14" y="46">CSR</text>
+            <text class="dg-lanelab" x="14" y="124">PORTAL</text>
+            <text class="dg-lanelab" x="14" y="218">SAP</text>
+            <text class="dg-lanelab" x="14" y="312">EWM</text>
+          </g>
+          <line x1="92" y1="0" x2="92" y2="366" stroke="var(--hair-strong)" stroke-width="1"/>
+
+          <!-- nodes: user lane -->
+          <rect class="dg-node" x="110" y="18" width="150" height="48" rx="6"/>
+          <text class="dg-t" x="185" y="40" text-anchor="middle">選套件 + 數量</text>
+          <text class="dg-tsm" x="185" y="56" text-anchor="middle">Ship out</text>
+
+          <rect class="dg-node" x="820" y="18" width="150" height="48" rx="6"/>
+          <text class="dg-t" x="895" y="40" text-anchor="middle">成套確認</text>
+          <text class="dg-tsm" x="895" y="56" text-anchor="middle">BOM 比例／應出量檢核</text>
+
+          <!-- portal lane -->
+          <rect class="dg-node" x="300" y="112" width="160" height="48" rx="6"/>
+          <text class="dg-t" x="380" y="134" text-anchor="middle">展開子料 Detail</text>
+          <text class="dg-tsm" x="380" y="150" text-anchor="middle">挑批</text>
+
+          <rect x="500" y="112" width="160" height="48" rx="6" fill="var(--amber-soft)" stroke="var(--amber)"/>
+          <text class="dg-t" x="580" y="134" text-anchor="middle">批號搓合</text>
+          <text class="dg-tsm" x="580" y="150" text-anchor="middle">Portal 搓合</text>
+
+          <!-- sap lane -->
+          <rect class="dg-node" x="300" y="206" width="160" height="48" rx="6"/>
+          <text class="dg-t" x="380" y="228" text-anchor="middle">批號／可用量</text>
+          <text class="dg-tsm" x="380" y="244" text-anchor="middle">SAP 資料來源</text>
+          <rect class="dg-node" x="500" y="206" width="160" height="48" rx="6"/>
+          <text class="dg-t" x="580" y="228" text-anchor="middle">建立 SO / OB</text>
+          <text class="dg-tsm" x="580" y="244" text-anchor="middle">by batch 分組</text>
+
+          <!-- ewm lane -->
+          <rect class="dg-node" x="700" y="300" width="150" height="48" rx="6"/>
+          <text class="dg-t" x="775" y="322" text-anchor="middle">揀貨 · GI</text>
+          <text class="dg-tsm" x="775" y="338" text-anchor="middle">出庫過帳</text>
+
+          <!-- flow arrows (teal) -->
+          <g style="color:var(--accent)" stroke="currentColor" stroke-width="2" fill="none">
+            <path d="M260 42 L300 42 L300 112" marker-end="url(#ar2)"/>
+            <line x1="460" y1="136" x2="500" y2="136" marker-end="url(#ar2)"/>
+            <path d="M380 206 L380 160" marker-end="url(#ar2)"/>
+            <path d="M580 160 L580 206" marker-end="url(#ar2)"/>
+            <path d="M660 230 L775 230 L775 300" marker-end="url(#ar2)"/>
+            <path d="M850 324 L895 324 L895 66" marker-end="url(#ar2)"/>
+          </g>
+          <!-- arrow labels -->
+          <text class="arrow-lab" x="470" y="132" text-anchor="end">子料清單</text>
+          <text class="arrow-lab" x="592" y="188">by batch</text>
+          <text class="arrow-lab" x="690" y="222">揀貨指令</text>
+          <text class="arrow-lab" x="905" y="200">回寫成套結果</text>
+
+          <!-- exception markers -->
+          <g style="color:var(--amber)" stroke="currentColor" stroke-width="1.6" fill="none" stroke-dasharray="4 3">
+            <path d="M580 112 L580 92 L730 92" />
+          </g>
+          <rect x="730" y="78" width="238" height="30" rx="5" fill="var(--amber-soft)" stroke="var(--amber)"/>
+          <text x="742" y="97" fill="var(--amber)" font-size="11.5" font-family="IBM Plex Mono,monospace">⚠ 例外：跨 Batch 搓合不成套</text>
+        </svg>
+      </div>
+      <figcaption class="note">
+        成套出貨橫跨四個系統：Portal 展開子料、搓合批號並做成套卡控檢核，SAP 依 Batch 分組建單，EWM 揀貨過帳後把結果回寫。
+      </figcaption>
+    </figure>
+
+    <!-- EXCEPTION SCENARIOS -->
+    <div class="exc">
+      <div class="card">
+        <div class="tagline">例外情境 A</div>
+        <div class="ct">成套退貨</div>
+        <div class="cd">原本套件僅支援子料個別退貨，使用者需手動兜湊成套，容易發生退貨不成套、帳面數量錯誤的情況。</div>
+        <div class="risk"><b>設計對策</b><br>退貨可用套數由 SAP 端計算，Portal 再依 Components 的組成比例自動換算各子料應退數量，並在送單前檢查成套完整性。</div>
+      </div>
+      <div class="card">
+        <div class="tagline">例外情境 B</div>
+        <div class="ct">跨 Batch 搓合</div>
+        <div class="cd">同一套子料被拆到多個批號時，後續下修數量若只動單一批，會讓同組其他子料失去成套關係。</div>
+        <div class="risk"><b>設計對策</b><br>下修數量需連動同組所有子料，且成套倍數卡控在送單前先行驗證，不成套即擋下。</div>
+      </div>
+      <div class="card">
+        <div class="tagline">例外情境 C</div>
+        <div class="ct">OBIA 套進套出</div>
+        <div class="cd">針對未入庫的 KIT 出貨情境，於 Portal 新增 GR PO 檢核機制，維持「套進套出」業務原則，確保套件出貨與入庫紀錄正確對應。</div>
+        <div class="risk"><b>設計對策</b><br>以 KIT Group ID + Batch + GR PO 組成套進套出比對鍵，確保套件出入庫的對應關係唯一且可追溯。</div>
+      </div>
+    </div>
+
+    <div class="skills">
+      <div class="skill"><div class="h">流程拆解</div><div class="d">拆解「一鍵成套出貨」的 User／Portal／SAP／EWM 各環節，釐清每個系統該負責什麼、資料在哪個節點交換，讓整條流程變得可測試、可追溯。</div></div>
+      <div class="skill"><div class="h">規格設計</div><div class="d">將業務規則轉為可驗證卡控條件（成套、比例、倍數、併單 key），清楚交付 SPEC／FSD，減少與 IT 來回釐清的成本。</div></div>
+      <div class="skill"><div class="h">風險預判</div><div class="d">規格階段窮舉例外情境（退貨不成套、跨 batch、套進套出檢核），盤點上線前可能延伸的問題。</div></div>
+    </div>
+  </section>
+
+  <!-- ================= CASE 03 ================= -->
+  <section class="case" id="case3">
+    <div class="case-head">
+      <span class="case-no">案例 03</span>
+      <h2 class="case-title">維運與資料整合</h2>
+    </div>
+    <p class="case-sub">
+      主導橫跨前端 Portal、後端 SAP/EWM 的出貨系統維運，透過 API/RFC 跨系統串接與 Kafka 事件同步確保資料一致性；
+      建立每週問題追蹤機制（新增／解決／累積量、分類趨勢），並憑藉對系統間資料流動路徑的掌握，快速定位「並行覆蓋」「拆併單」等跨系統時序類問題。
+    </p>
+
+    <!-- KPI TILES -->
+    <div class="kpis" style="margin-top:26px">
+      <div class="kpi"><div class="lab">累積剩餘</div><div class="num">5</div><div class="sub">Open issues</div></div>
+      <div class="kpi"><div class="lab">本週新增</div><div class="num">1</div><div class="sub">較上週 ↓1</div></div>
+      <div class="kpi"><div class="lab">本週解決</div><div class="num">2</div><div class="sub">上線／修正</div></div>
+      <div class="kpi"><div class="lab">本週淨增</div><div class="num">−1</div><div class="sub down">趨勢收斂 ↓</div></div>
+    </div>
+
+    <!-- TREND CHART -->
+    <figure class="plate">
+      <div class="plate-cap">
+        <span><b>圖 3.1</b> — 線上問題近三週趨勢</span>
+        <span class="chart-legend">
+          <span class="cl"><span class="dot" style="background:var(--s-new)"></span>新增</span>
+          <span class="cl"><span class="dot" style="background:var(--s-done)"></span>解決</span>
+          <span class="cl"><span class="dot" style="background:var(--s-stock)"></span>累積剩餘</span>
+        </span>
+      </div>
+      <div class="plate-body scrollx">
+        <svg viewBox="0 0 720 300" role="img" aria-label="近三週線上問題趨勢：第1週新增7、解決1、累積6；第2週新增2、解決2、累積6；第3週新增1、解決2、累積5。新增下降、累積剩餘收斂。">
+          <!-- gridlines + y axis 0..8 -->
+          <g stroke="var(--chart-grid)" stroke-width="1">
+            <line x1="70" y1="40"  x2="690" y2="40"/>
+            <line x1="70" y1="95"  x2="690" y2="95"/>
+            <line x1="70" y1="150" x2="690" y2="150"/>
+            <line x1="70" y1="205" x2="690" y2="205"/>
+          </g>
+          <line x1="70" y1="205" x2="690" y2="205" stroke="var(--chart-axis)" stroke-width="1.5"/>
+          <g class="ax" text-anchor="end">
+            <text x="60" y="44">8</text>
+            <text x="60" y="99">5.3</text>
+            <text x="60" y="154">2.7</text>
+            <text x="60" y="209">0</text>
+          </g>
+
+          <!-- scale: y = 205 - value*20.6  (8 units over 165px) -->
+          <!-- week groups centered at x = 190, 390, 590 ; bar width 34, gap 4 -->
+          <!-- WEEK 1: new7 done1 -->
+          <g>
+            <rect x="150" y="60.8"  width="34" height="144.2" rx="4" fill="var(--s-new)"/>
+            <rect x="188" y="184.4" width="34" height="20.6" rx="4" fill="var(--s-done)"/>
+            <text class="bar-val" x="167" y="52"  text-anchor="middle">7</text>
+            <text class="bar-val" x="205" y="176" text-anchor="middle">1</text>
+          </g>
+          <!-- WEEK 2: new2 done2 -->
+          <g>
+            <rect x="350" y="163.8" width="34" height="41.2" rx="4" fill="var(--s-new)"/>
+            <rect x="388" y="163.8" width="34" height="41.2" rx="4" fill="var(--s-done)"/>
+            <text class="bar-val" x="367" y="155" text-anchor="middle">2</text>
+            <text class="bar-val" x="405" y="155" text-anchor="middle">2</text>
+          </g>
+          <!-- WEEK 3: new1 done2 -->
+          <g>
+            <rect x="550" y="184.4" width="34" height="20.6" rx="4" fill="var(--s-new)"/>
+            <rect x="588" y="163.8" width="34" height="41.2" rx="4" fill="var(--s-done)"/>
+            <text class="bar-val" x="567" y="176" text-anchor="middle">1</text>
+            <text class="bar-val" x="605" y="155" text-anchor="middle">2</text>
+          </g>
+
+          <!-- cumulative line: w1=6(81.4) w2=6(81.4) w3=5(102) at group centers 186,386,586 -->
+          <polyline points="186,81.4 386,81.4 586,102" fill="none" stroke="var(--s-stock)" stroke-width="2.5"/>
+          <g fill="var(--s-stock)">
+            <circle cx="186" cy="81.4" r="4.5"/><circle cx="386" cy="81.4" r="4.5"/><circle cx="586" cy="102" r="4.5"/>
+          </g>
+          <g class="bar-val" fill="var(--s-stock)" text-anchor="middle">
+            <text x="186" y="74">6</text><text x="386" y="74">6</text><text x="586" y="94">5</text>
+          </g>
+
+          <!-- x labels -->
+          <g class="ax" text-anchor="middle">
+            <text x="186" y="230">第 1 週</text>
+            <text x="386" y="230">第 2 週</text>
+            <text x="586" y="230">第 3 週（本週）</text>
+          </g>
+        </svg>
+      </div>
+      <figcaption class="note">
+        新增問題由 7 → 2 → 1 明顯下降，累積剩餘由 6 收斂到 5，本週淨增 −1，顯示問題已進入收斂期。數字直接標示於圖上。
+      </figcaption>
+    </figure>
+
+    <!-- STATUS CLASSIFICATION -->
+    <div class="tbl-wrap scrollx" aria-label="線上問題狀態分類">
+      <table>
+        <thead><tr><th>議題分類</th><th>累積剩餘</th><th>進度說明</th><th>預計修正上線</th></tr></thead>
+        <tbody>
+          <tr><td>程式並行覆蓋（含 EWM 狀態）</td><td>3</td><td>IT 修正與測試並行</td><td>分段上線中</td></tr>
+          <tr><td>出貨程式優化</td><td>1</td><td>UAT 觀察中</td><td>本週</td></tr>
+          <tr><td>拆併單（本週新增）</td><td>1</td><td>排查中</td><td>待評估</td></tr>
+          <tr><td>單據未還量</td><td>0</td><td>已解決 ✓</td><td>已上線</td></tr>
+          <tr><td>Text 相關</td><td>0</td><td>已修正上線 ✓</td><td>已上線</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- DATA FLOW DIAGRAM -->
+    <figure class="plate">
+      <div class="plate-cap"><span><b>圖 3.2</b> — 系統資料流與整合架構</span><span>Portal · API · B2B/RPA · SAP · EWM · Kafka</span></div>
+      <div class="plate-body scrollx">
+        <svg viewBox="0 0 960 380" role="img" aria-label="系統資料流架構圖：使用者與 B2B/RPA 透過 Portal 與 API 下單查詢，Portal 呼叫 SAP 進行過帳，SAP 與 EWM 之間透過 Kafka 事件匯流排同步揀貨與狀態，狀態再回寫 Portal。">
+          <defs>
+            <marker id="ar3" markerWidth="9" markerHeight="9" refX="7.5" refY="4" orient="auto"><polygon points="0,0 9,4 0,8" fill="currentColor"/></marker>
+          </defs>
+
+          <!-- nodes -->
+          <!-- user -->
+          <rect class="dg-node" x="30" y="40" width="130" height="56" rx="6"/>
+          <text class="dg-t" x="95" y="64" text-anchor="middle">使用者 · CSR</text>
+          <text class="dg-tsm" x="95" y="82" text-anchor="middle">下單／查詢</text>
+          <!-- b2b -->
+          <rect class="dg-node" x="30" y="200" width="130" height="56" rx="6"/>
+          <text class="dg-t" x="95" y="224" text-anchor="middle">B2B / RPA</text>
+          <text class="dg-tsm" x="95" y="242" text-anchor="middle">自動化查單</text>
+          <!-- portal -->
+          <rect x="270" y="120" width="150" height="64" rx="6" fill="var(--accent-soft)" stroke="var(--accent)"/>
+          <text class="dg-t" x="345" y="146" text-anchor="middle" fill="var(--accent)">Portal</text>
+          <text class="dg-tsm" x="345" y="164" text-anchor="middle">出貨模組 UI / API</text>
+          <!-- api gateway small -->
+          <rect class="dg-node" x="180" y="215" width="70" height="40" rx="6"/>
+          <text class="dg-tsm" x="215" y="239" text-anchor="middle">Open API</text>
+          <!-- SAP -->
+          <rect class="dg-node" x="560" y="60" width="150" height="60" rx="6"/>
+          <text class="dg-t" x="635" y="86" text-anchor="middle">SAP</text>
+          <text class="dg-tsm" x="635" y="104" text-anchor="middle">SO / OB / 過帳 / RFC</text>
+          <!-- EWM -->
+          <rect class="dg-node" x="560" y="250" width="150" height="60" rx="6"/>
+          <text class="dg-t" x="635" y="276" text-anchor="middle">EWM</text>
+          <text class="dg-tsm" x="635" y="294" text-anchor="middle">揀貨 / GI / 倉儲</text>
+          <!-- Kafka bus -->
+          <rect x="790" y="60" width="140" height="250" rx="8" fill="var(--amber-soft)" stroke="var(--amber)"/>
+          <text class="dg-t" x="860" y="180" text-anchor="middle" fill="var(--amber)" transform="rotate(0 860 180)">Kafka</text>
+          <text class="dg-tsm" x="860" y="200" text-anchor="middle">事件匯流排</text>
+          <text class="dg-tsm" x="860" y="216" text-anchor="middle">status 同步</text>
+
+          <!-- arrows -->
+          <g style="color:var(--accent)" stroke="currentColor" stroke-width="2" fill="none">
+            <path d="M160 68 L270 140" marker-end="url(#ar3)"/>
+            <path d="M160 228 L180 232" marker-end="url(#ar3)"/>
+            <path d="M250 232 L270 176" marker-end="url(#ar3)"/>
+            <path d="M420 145 L560 95" marker-end="url(#ar3)"/>
+          </g>
+          <g style="color:var(--muted)" stroke="currentColor" stroke-width="1.6" fill="none">
+            <path d="M635 120 L635 250" marker-end="url(#ar3)"/>
+          </g>
+          <g style="color:var(--amber)" stroke="currentColor" stroke-width="1.8" fill="none">
+            <path d="M710 90 L790 90" marker-end="url(#ar3)"/>
+            <path d="M710 280 L790 280" marker-end="url(#ar3)"/>
+            <path d="M820 60 L820 30 L345 30 L345 120" marker-end="url(#ar3)" stroke-dasharray="5 4"/>
+          </g>
+
+          <!-- labels -->
+          <text class="arrow-lab" x="205" y="98">UI 下單</text>
+          <text class="arrow-lab" x="452" y="112">RFC 呼叫 · 過帳</text>
+          <text class="arrow-lab" x="648" y="190">揀貨指令</text>
+          <text class="arrow-lab" x="742" y="80" fill="var(--amber)">發佈</text>
+          <text class="arrow-lab" x="742" y="272" fill="var(--amber)">發佈</text>
+          <text class="arrow-lab" x="560" y="24" fill="var(--amber)">status 回寫 Portal</text>
+        </svg>
+      </div>
+      <figcaption class="note">
+        使用者與 B2B/RPA 都經 Portal 與 Open API 進入系統；Portal 呼叫 SAP 過帳，SAP 與 EWM 透過 Kafka 事件匯流排交換揀貨與狀態。
+      </figcaption>
+    </figure>
+
+    <div class="skills">
+      <div class="skill"><div class="h">問題管理</div><div class="d">把零散回報收斂成每週清單：新增／解決／累積、依議題分類與趨勢統計，讓維運狀態一眼可讀、可對主管交代。</div></div>
+      <div class="skill"><div class="h">資料整合</div><div class="d">掌握 Portal／API／SAP／EWM／Kafka 的資料流與事件時序，能定位跨系統的並行覆蓋與拆併單問題。</div></div>
+      <div class="skill"><div class="h">持續改善</div><div class="d">從 bug 中萃取 enhancement，回饋成規格與卡控，讓同類問題不再重複發生，趨勢持續收斂。</div></div>
+    </div>
+  </section>
+
+  <!-- ================= CASE 04 ================= -->
+  <section class="case" id="case4">
+    <div class="case-head">
+      <span class="case-no">案例 04</span>
+      <h2 class="case-title">0 → 1 建置：碳管理平台重構</h2>
+    </div>
+    <p class="case-sub">
+      面對新政策與碳盤查規範需求，主導領域研究、產品流程與資料架構，重新定義產品定位。目標不只是完成碳盤查，
+      而是讓企業能把活動數據、排放係數、計算結果與查證所需報告串成一條可追溯的作業鏈。
+    </p>
+    <div class="context-grid">
+      <div class="cell"><div class="lab">Role</div><div class="val">產品主責：市場／法規需求轉譯、流程與資料架構設計、迭代管理</div></div>
+      <div class="cell"><div class="lab">Scope</div><div class="val">活動數據、排放係數、碳排計算、儀表板與合規報告</div></div>
+      <div class="cell"><div class="lab">Delivery</div><div class="val">跨工程、業務與客服建立問題閉環，主導產品問題的修復與驗證</div></div>
+    </div>
+    <div class="carbon-grid">
+      <figure class="carbon-shot"><img src="carbon-dashboard.png" alt="碳管理平台總覽儀表板"><figcaption><b>排放總覽儀表板</b>將年度排放、類別與據點占比、碳密度整合為可讀的決策畫面。</figcaption></figure>
+      <figure class="carbon-shot"><img src="carbon-factors.png" alt="排放係數資料庫"><figcaption><b>排放係數共用資料庫</b>將 GWP 與排放係數集中管理，降低填報時的重複蒐集與版本不一致。</figcaption></figure>
+      <figure class="carbon-shot"><img src="carbon-activity.png" alt="活動數據管理"><figcaption><b>活動數據管理</b>支援手動、表計與 API 三種來源，透明呈現填報進度與資料比較。</figcaption></figure>
+      <figure class="carbon-shot"><img src="carbon-reports.png" alt="合規報告生成"><figcaption><b>合規報告生成</b>支援基準年與審核內容鎖定，讓資料能被正確產出並利於查證。</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer>
+    <div class="wrap" style="padding:0">
+      <div class="contact-bar">
+        <div><div class="contact-label">CONTACT</div><div>產品策略、企業系統轉型或 B2B SaaS 機會，歡迎來信交流。</div></div>
+        <a href="mailto:inavy46@gmail.com">inavy46@gmail.com ↗</a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
