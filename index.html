@@ -89,6 +89,19 @@ body{
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
 }
+.site-nav{
+  position:sticky;top:0;z-index:20;
+  display:flex;justify-content:flex-end;align-items:center;gap:8px;
+  max-width:1040px;margin:0 auto;padding:12px 28px;
+  background:color-mix(in srgb,var(--plane) 92%,transparent);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--hair);
+}
+.site-nav a,.site-nav button{
+  appearance:none;border:1px solid var(--hair-strong);background:var(--surface);
+  color:var(--ink-2);font:600 12px/1 "IBM Plex Mono",monospace;
+  text-decoration:none;padding:9px 12px;border-radius:3px;cursor:pointer;
+}
+.site-nav a[aria-current="page"],.site-nav button.active{color:var(--accent);border-color:var(--accent)}
 .wrap{max-width:1040px;margin:0 auto;padding:0 28px}
 .mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
 
@@ -290,6 +303,13 @@ footer .anon{margin-top:12px;font-family:"IBM Plex Mono",monospace;font-size:11.
 </style>
 </head>
 <body>
+
+<nav class="site-nav" aria-label="Site navigation">
+  <a href="index.html" aria-current="page" data-ui="portfolio">作品集</a>
+  <a href="resume.html">Resume</a>
+  <button type="button" data-lang-option="zh" class="active">繁中</button>
+  <button type="button" data-lang-option="en">EN</button>
+</nav>
 
 <div class="wrap">
 
@@ -744,10 +764,10 @@ footer .anon{margin-top:12px;font-family:"IBM Plex Mono",monospace;font-size:11.
       <div class="cell"><div class="lab">Delivery</div><div class="val">跨工程、業務與客服建立問題閉環，主導產品問題的修復與驗證</div></div>
     </div>
     <div class="carbon-grid">
-      <figure class="carbon-shot"><img src="carbon-dashboard.png" alt="碳管理平台總覽儀表板"><figcaption><b>排放總覽儀表板</b>將年度排放、類別與據點占比、碳密度整合為可讀的決策畫面。</figcaption></figure>
-      <figure class="carbon-shot"><img src="carbon-factors.png" alt="排放係數資料庫"><figcaption><b>排放係數共用資料庫</b>將 GWP 與排放係數集中管理，降低填報時的重複蒐集與版本不一致。</figcaption></figure>
-      <figure class="carbon-shot"><img src="carbon-activity.png" alt="活動數據管理"><figcaption><b>活動數據管理</b>支援手動、表計與 API 三種來源，透明呈現填報進度與資料比較。</figcaption></figure>
-      <figure class="carbon-shot"><img src="carbon-reports.png" alt="合規報告生成"><figcaption><b>合規報告生成</b>支援基準年與審核內容鎖定，讓資料能被正確產出並利於查證。</figcaption></figure>
+      <figure class="carbon-shot"><img src="IMG/carbon-dashboard.png" alt="碳管理平台總覽儀表板"><figcaption><b>排放總覽儀表板</b>將年度排放、類別與據點占比、碳密度整合為可讀的決策畫面。</figcaption></figure>
+      <figure class="carbon-shot"><img src="IMG/carbon-factors.png" alt="排放係數資料庫"><figcaption><b>排放係數共用資料庫</b>將 GWP 與排放係數集中管理，降低填報時的重複蒐集與版本不一致。</figcaption></figure>
+      <figure class="carbon-shot"><img src="IMG/carbon-activity.png" alt="活動數據管理"><figcaption><b>活動數據管理</b>支援手動、表計與 API 三種來源，透明呈現填報進度與資料比較。</figcaption></figure>
+      <figure class="carbon-shot"><img src="IMG/carbon-reports.png" alt="合規報告生成"><figcaption><b>合規報告生成</b>支援基準年與審核內容鎖定，讓資料能被正確產出並利於查證。</figcaption></figure>
     </div>
   </section>
 
@@ -762,5 +782,57 @@ footer .anon{margin-top:12px;font-family:"IBM Plex Mono",monospace;font-size:11.
   </footer>
 
 </div>
+<script>
+const EN = {
+  "Nikki Liu｜資深產品經理作品集":"Nikki Liu | Senior Product Manager Portfolio",
+  "讓複雜的企業流程，":"Turn complex enterprise workflows",
+  "成為可交付、可營運的產品。":"into products teams can deliver and operate.",
+  "具 B2B 軟體、ERP、IoT 與碳管理產品經驗。從需求釐清、流程與資料設計，到跨國上線、問題管理與持續迭代， 專注把高複雜度的業務邏輯轉化為可開發、易使用的永續可營運性產品。 以下案例說明系統轉型、複雜功能設計、跨系統維運與 0→1 平台建置四種能力。":"Experienced in B2B software, ERP, IoT, and carbon management products. From requirement discovery and workflow and data design to global rollout, issue management, and continuous iteration, I turn complex business logic into sustainable products that are buildable, intuitive, and operable. The following cases demonstrate four strengths: system transformation, complex feature design, cross-system operations, and zero-to-one platform development.",
+  "產品設計":"Product Design","跨部門協調":"Cross-functional Alignment","規格設計 (SPEC / FSP)":"Product Specifications (SPEC / FSP)","風險預判":"Risk Anticipation","專案管理":"Project Management",
+  "案例 01":"CASE 01","案例 02":"CASE 02","案例 03":"CASE 03","案例 04":"CASE 04",
+  "系統轉型：舊出貨系統退場":"System Transformation: Retiring a Legacy Shipment System",
+  "舊出貨系統長年與新平台並行，造成資料分歧與維運負擔。目標是讓舊系統安全退場，而非直接斷然關閉。 先弄清楚「使用者為什麼還在用舊系統」，把每個使用情境轉成新系統的短中長期 backlog，設計訓練與切換計畫。":"A legacy shipment system had run alongside the new platform for years, creating data inconsistencies and maintenance overhead. The goal was a safe retirement, not an abrupt shutdown. I identified why users still relied on the old system, converted each scenario into short-, mid-, and long-term backlog items, and designed the training and transition plan.",
+  "需求蒐集／分析、專案主責":"Requirement discovery and analysis; project owner",
+  "CSR（業務助理）、VSR（採購助理）、IE（其他模組 Owner）、IT":"CSR (sales operations), VSR (purchasing operations), IE (other module owners), and IT",
+  "需求盤點 → Backlog 分類 → 短中長期方案 → 訓練/切換 → 上線追蹤":"Discovery → Backlog classification → Phased solutions → Training and transition → Post-launch tracking",
+  "圖 1.1":"FIG. 1.1","— 舊系統退場推動流程":"— Legacy system retirement workflow","主流程":"Primary flow","回饋迴圈":"Feedback loop","關鍵卡控":"Critical control",
+  "① 需求蒐集":"1. Requirement discovery","訪談 · 現場觀察":"Interviews · Observation","舊系統使用原因":"Reasons for legacy use","② Backlog 分類":"2. Backlog classification","情境歸類 · 影響":"Scenario · Impact","優先序 · 可行性":"Priority · Feasibility","③ 短中長期方案":"3. Phased solutions","Quick win / 系統化":"Quick win / Systematic","/ 架構調整":"/ Architecture change","④ 訓練與切換":"4. Training and transition","教材 · 抗拒排查":"Materials · Adoption barriers","權限切換計畫":"Access migration plan","⑤ 上線追蹤":"5. Post-launch tracking","殘留使用監控":"Residual usage monitoring","殘留需求回饋 · 迭代進 backlog":"Feed residual needs back into the backlog","跨部門協調 · 輸入來源":"Cross-functional inputs","CSR · 業務助理":"CSR · Sales operations","VSR · 採購助理":"VSR · Purchasing operations","IE · 模組 Owner":"IE · Module owner","IT 開發":"IT development","跨模組影響":"Cross-module impact","同步階段目標":"Align phased goals",
+  "專案推動":"Program Execution","不強推切換，先了解使用原因，以完善新系統與訓練、切換計畫降低使用者轉換門檻。":"Understand continued usage first, then improve the product, training, and transition plan to lower adoption barriers.","在 CSR、VSR、IE 與 IT 之間對齊定義與優先序，讓每項 backlog 都有明確負責人與時程。":"Align definitions and priorities across CSR, VSR, IE, and IT so every backlog item has a clear owner and timeline.","結構化分析":"Structured Analysis","把發散的需求收斂成可分類、可排序、可追蹤的 backlog，並以短中長期分配資源投入。":"Turn fragmented needs into a categorized, prioritized, traceable backlog and allocate resources across short-, mid-, and long-term horizons.",
+  "複雜功能設計：KIT 成套出貨與退貨流程":"Complex Feature Design: KIT Shipment and Return Workflows",
+  "套件（KIT）由多顆子料成套出貨及退貨，牽涉出貨批號搓合、成套卡控、庫存分配、挑批等邏輯， 又要適用 OBIA（OB in Advanced）情境。任一環節都可能造成數量不成套、庫存錯配或帳務失衡。 核心工作是把流程拆到跨系統的每一步，設計規格並預先思考例外情境。":"A KIT consists of multiple components that must be shipped and returned as a complete set. The workflow includes batch matching, completeness controls, inventory allocation, and batch selection, while also supporting OBIA (OB in Advanced). Any failure can create incomplete quantities, inventory mismatches, or accounting discrepancies. My role was to break the workflow into every cross-system step, define specifications, and anticipate edge cases.",
+  "KIT 成套出貨／退貨、OBIA 庫存分配":"KIT shipment and return; OBIA inventory allocation","使用者 (CSR) · Portal · SAP · EWM 四方互動":"Four-way interaction across CSR, Portal, SAP, and EWM","流程拆解、SPEC／FSP、卡控規則、例外情境測試案例":"Process decomposition, SPEC/FSP, control rules, and edge-case tests",
+  "圖 2.1":"FIG. 2.1","— 套件成套出貨泳道圖":"— KIT shipment swimlane","選套件 + 數量":"Select KIT + quantity","成套確認":"Completeness check","BOM 比例／應出量檢核":"BOM ratio / required quantity","展開子料 Detail":"Expand component details","挑批":"Select batches","批號搓合":"Batch matching","Portal 搓合":"Matched in Portal","批號／可用量":"Batch / Available quantity","SAP 資料來源":"Source: SAP","建立 SO / OB":"Create SO / OB","by batch 分組":"Group by batch","揀貨 · GI":"Picking · GI","出庫過帳":"Goods issue posting","子料清單":"Component list","揀貨指令":"Picking instruction","回寫成套結果":"Write back result","⚠ 例外：跨 Batch 搓合不成套":"⚠ Exception: incomplete cross-batch match",
+  "成套出貨橫跨四個系統：Portal 展開子料、搓合批號並做成套卡控檢核，SAP 依 Batch 分組建單，EWM 揀貨過帳後把結果回寫。":"KIT shipment spans four systems: Portal expands components, matches batches, and validates completeness; SAP creates documents by batch; EWM performs picking and goods issue, then returns the result.",
+  "例外情境 A":"EDGE CASE A","例外情境 B":"EDGE CASE B","例外情境 C":"EDGE CASE C","成套退貨":"KIT Return","原本套件僅支援子料個別退貨，使用者需手動兜湊成套，容易發生退貨不成套、帳面數量錯誤的情況。":"The original workflow only supported component-level returns. Users had to manually assemble complete sets, creating risks of incomplete returns and quantity discrepancies.","設計對策":"DESIGN RESPONSE","退貨可用套數由 SAP 端計算，Portal 再依 Components 的組成比例自動換算各子料應退數量，並在送單前檢查成套完整性。":"SAP calculates the number of returnable KITs. Portal converts it into component quantities using BOM ratios and validates completeness before submission.","跨 Batch 搓合":"Cross-batch Matching","同一套子料被拆到多個批號時，後續下修數量若只動單一批，會讓同組其他子料失去成套關係。":"When components in one KIT span multiple batches, reducing only one batch can break the completeness relationship across the group.","下修數量需連動同組所有子料，且成套倍數卡控在送單前先行驗證，不成套即擋下。":"Quantity reductions update every component in the group, and completeness multiples are validated before submission.","OBIA 套進套出":"OBIA Set-in / Set-out","針對未入庫的 KIT 出貨情境，於 Portal 新增 GR PO 檢核機制，維持「套進套出」業務原則，確保套件出貨與入庫紀錄正確對應。":"For KITs shipped before receipt, Portal adds a GR PO validation mechanism to preserve the set-in/set-out principle and keep shipment and receipt records aligned.","以 KIT Group ID + Batch + GR PO 組成套進套出比對鍵，確保套件出入庫的對應關係唯一且可追溯。":"KIT Group ID + Batch + GR PO form a unique traceable matching key for KIT receipt and shipment.",
+  "流程拆解":"Process Decomposition","拆解「一鍵成套出貨」的 User／Portal／SAP／EWM 各環節，釐清每個系統該負責什麼、資料在哪個節點交換，讓整條流程變得可測試、可追溯。":"Decompose one-click KIT shipment across User, Portal, SAP, and EWM; clarify system responsibilities and data handoffs so the full workflow is testable and traceable.","規格設計":"Specification Design","將業務規則轉為可驗證卡控條件（成套、比例、倍數、併單 key），清楚交付 SPEC／FSD，減少與 IT 來回釐清的成本。":"Translate business rules into verifiable controls for completeness, ratios, multiples, and consolidation keys; deliver clear SPEC/FSD documents that reduce clarification cycles with IT.","規格階段窮舉例外情境（退貨不成套、跨 batch、套進套出檢核），盤點上線前可能延伸的問題。":"Enumerate edge cases during specification, including incomplete returns, cross-batch matching, and set-in/set-out controls, to surface risks before launch.",
+  "維運與資料整合":"Operations and Data Integration","主導橫跨前端 Portal、後端 SAP/EWM 的出貨系統維運，透過 API/RFC 跨系統串接與 Kafka 事件同步確保資料一致性； 建立每週問題追蹤機制（新增／解決／累積量、分類趨勢），並憑藉對系統間資料流動路徑的掌握，快速定位「並行覆蓋」「拆併單」等跨系統時序類問題。":"Led shipment system operations across the front-end Portal and back-end SAP/EWM. Used API/RFC integrations and Kafka event synchronization to maintain data consistency; established weekly issue tracking for new, resolved, and outstanding items and used end-to-end data-flow knowledge to quickly locate cross-system timing issues such as concurrent overwrites and split/merge documents.",
+  "累積剩餘":"Outstanding","本週新增":"New this week","較上週 ↓1":"Down 1 WoW","本週解決":"Resolved this week","上線／修正":"Released / Fixed","本週淨增":"Net change","趨勢收斂 ↓":"Trending down","圖 3.1":"FIG. 3.1","— 線上問題近三週趨勢":"— Three-week production issue trend","新增":"New","解決":"Resolved","第 1 週":"Week 1","第 2 週":"Week 2","第 3 週（本週）":"Week 3 (current)","新增問題由 7 → 2 → 1 明顯下降，累積剩餘由 6 收斂到 5，本週淨增 −1，顯示問題已進入收斂期。數字直接標示於圖上。":"New issues fell from 7 to 2 to 1; outstanding issues declined from 6 to 5, with a net change of -1 this week, indicating a converging trend. Values are labeled directly on the chart.",
+  "議題分類":"Issue category","進度說明":"Progress","預計修正上線":"Target release","程式並行覆蓋（含 EWM 狀態）":"Concurrent overwrite (including EWM status)","IT 修正與測試並行":"IT fix and testing in progress","分段上線中":"Phased rollout","出貨程式優化":"Shipment program optimization","UAT 觀察中":"Under UAT observation","本週":"This week","拆併單（本週新增）":"Split/merge documents (new)","排查中":"Under investigation","待評估":"TBD","單據未還量":"Quantity not restored","已解決 ✓":"Resolved ✓","已上線":"Released","Text 相關":"Text-related","已修正上線 ✓":"Fixed and released ✓",
+  "圖 3.2":"FIG. 3.2","— 系統資料流與整合架構":"— System data flow and integration architecture","使用者 · CSR":"User · CSR","下單／查詢":"Order / Query","自動化查單":"Automated query","出貨模組 UI / API":"Shipment module UI / API","SO / OB / 過帳 / RFC":"SO / OB / Posting / RFC","揀貨 / GI / 倉儲":"Picking / GI / Warehouse","事件匯流排":"Event bus","status 同步":"Status sync","UI 下單":"UI order","RFC 呼叫 · 過帳":"RFC call · Posting","發佈":"Publish","status 回寫 Portal":"Write status to Portal","使用者與 B2B/RPA 都經 Portal 與 Open API 進入系統；Portal 呼叫 SAP 過帳，SAP 與 EWM 透過 Kafka 事件匯流排交換揀貨與狀態。":"Users and B2B/RPA enter through Portal and Open API. Portal calls SAP for posting, while SAP and EWM exchange picking and status events through Kafka.","問題管理":"Issue Management","把零散回報收斂成每週清單：新增／解決／累積、依議題分類與趨勢統計，讓維運狀態一眼可讀、可對主管交代。":"Turn fragmented reports into a weekly view of new, resolved, and outstanding issues, with category and trend analysis for transparent operational reporting.","資料整合":"Data Integration","掌握 Portal／API／SAP／EWM／Kafka 的資料流與事件時序，能定位跨系統的並行覆蓋與拆併單問題。":"Understand data flows and event timing across Portal, API, SAP, EWM, and Kafka to locate concurrent overwrite and split/merge issues.","持續改善":"Continuous Improvement","從 bug 中萃取 enhancement，回饋成規格與卡控，讓同類問題不再重複發生，趨勢持續收斂。":"Turn bugs into enhancements, specifications, and preventive controls so recurring issues decline over time.",
+  "0 → 1 建置：碳管理平台重構":"Zero-to-One: Carbon Management Platform Redesign","面對新政策與碳盤查規範需求，主導領域研究、產品流程與資料架構，重新定義產品定位。目標不只是完成碳盤查， 而是讓企業能把活動數據、排放係數、計算結果與查證所需報告串成一條可追溯的作業鏈。":"In response to new policies and carbon accounting requirements, I led domain research, product workflows, data architecture, and product repositioning. The goal was not only to complete carbon accounting, but to connect activity data, emission factors, calculations, and verification reports into a traceable operational chain.","產品主責：市場／法規需求轉譯、流程與資料架構設計、迭代管理":"Product owner: market and regulatory translation, workflow and data architecture, iteration management","活動數據、排放係數、碳排計算、儀表板與合規報告":"Activity data, emission factors, emissions calculation, dashboards, and compliance reports","跨工程、業務與客服建立問題閉環，主導產品問題的修復與驗證":"Built a closed-loop issue process across engineering, sales, and support; led product issue resolution and validation","排放總覽儀表板":"Emissions Dashboard","將年度排放、類別與據點占比、碳密度整合為可讀的決策畫面。":"Combined annual emissions, category and site shares, and carbon intensity into an actionable decision view.","排放係數共用資料庫":"Shared Emission Factor Database","將 GWP 與排放係數集中管理，降低填報時的重複蒐集與版本不一致。":"Centralized GWP and emission factors to reduce repeated research and version inconsistencies.","活動數據管理":"Activity Data Management","支援手動、表計與 API 三種來源，透明呈現填報進度與資料比較。":"Supported manual, meter, and API data sources with transparent completion tracking and comparison.","合規報告生成":"Compliance Report Generation","支援基準年與審核內容鎖定，讓資料能被正確產出並利於查證。":"Supported base-year settings and approved-content locking for accurate, audit-ready output.","產品策略、企業系統轉型或 B2B SaaS 機會，歡迎來信交流。":"For product strategy, enterprise transformation, or B2B SaaS opportunities, feel free to get in touch."
+};
+const originalNodes=[];
+const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+while(walker.nextNode()){
+  const n=walker.currentNode;
+  if(n.parentElement && !["SCRIPT","STYLE"].includes(n.parentElement.tagName) && n.nodeValue.trim()){
+    originalNodes.push([n,n.nodeValue]);
+  }
+}
+function keyOf(s){return s.trim().replace(/\s+/g," ")}
+function setLanguage(lang){
+  document.documentElement.lang=lang==="en"?"en":"zh-Hant";
+  originalNodes.forEach(([node,original])=>{
+    const k=keyOf(original);
+    node.nodeValue=lang==="en" && EN[k] ? EN[k] : original;
+  });
+  document.querySelectorAll("[data-lang-option]").forEach(b=>b.classList.toggle("active",b.dataset.langOption===lang));
+  document.querySelector("[data-ui=portfolio]").textContent=lang==="en"?"Portfolio":"作品集";
+  document.title=lang==="en"?"Nikki Liu | Senior Product Manager Portfolio":"Nikki Liu｜資深產品經理作品集";
+  localStorage.setItem("portfolio-lang",lang);
+}
+document.querySelectorAll("[data-lang-option]").forEach(b=>b.addEventListener("click",()=>setLanguage(b.dataset.langOption)));
+setLanguage(localStorage.getItem("portfolio-lang")==="en"?"en":"zh");
+</script>
 </body>
 </html>
